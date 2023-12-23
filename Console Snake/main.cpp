@@ -11,6 +11,13 @@ enum sDiraction {Stop = 0, UP, RIGHT, DOWN, LEFT};
 sDiraction dir;
 int x_tails[150], y_tails[150];
 
+
+void gotoxy(int x, int y) {
+    COORD pos = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
+    HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleCursorPosition(output, pos);
+}
+
 void StartGame() {
     GameOver = false;
     x_snake = (int)(width / 2);
@@ -20,14 +27,14 @@ void StartGame() {
     score = 0;
     size_snake = 1;
     dir = Stop;
-
+    system("cls");
 }
 // ╔=╗ 201 205 187
 // ║ ║ 186     186
 // ╚=╝ 200 205 188
 
 void DrawMap() {
-    system("cls");
+    gotoxy(0, 0);
     for (int y = 0; y < height + 2; y++) {
         for (int x = 0; x < width + 2; x++) {
             if ((x == x_fruit) && (y == y_fruit)) cout << char(3);
@@ -143,10 +150,6 @@ int main() {
         DrawMap();
         Input();
         Logic();
-        Sleep(50);
-    }
-    cout << x_snake << " " << y_snake << endl;
-    for (int i = 0; i < size_snake; i++) {
-        cout << i << " " << x_tails[i] << " " << y_tails[i] << endl;
+        Sleep(100);
     }
 }
